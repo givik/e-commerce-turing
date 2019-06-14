@@ -1,0 +1,27 @@
+// importing sass modules
+@import './variables';
+@import './bag.scss';
+@import './cart.scss';
+@import './categories.scss';
+@import './departments.scss';
+@import './footer.scss';
+@import './header.scss';
+@import './home.scss';
+@import './login.scss';
+@import './logo.scss';
+@import './menu.scss';
+@import './pagenation.scss';
+@import './products.scss';
+@import './registration.scss';
+@import './search.scss';
+@import './show.scss';
+@import './welcome.scss';
+
+// default fonts for app
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:300,700|Playfair+Display:400i,700&display=swap');
+
+* {
+  /* font-family: 'Playfair Display', serif;
+  font-family: 'Open Sans', sans-serif; */
+  font-family: 'Montserrat', sans-serif;
+}
