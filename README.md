@@ -6,16 +6,16 @@
 
 ## Features
 
-<input type="checkbox">Users can view all items when entering the website<br>
-<input type="checkbox">Items are displayed properly based on the selected department and category<br>
-<input type="checkbox">Users can search items through search box
-<br>
-<input type="checkbox">Support paging if we have too many items<br>
-<input type="checkbox">Users can see item details by selecting a specific item<br>
-<input type="checkbox">Users can add items to their shopping carts<br>
-<input type="checkbox">Users can register/login using website custom forms, or social login libraries<br>
-<input type="checkbox">Users can update personal profiles with shipping addresses and other info<br>
-<input type="checkbox">Users can checkout with 3rd party payment gateways: Stripe.
+- [x] Users can view all items when entering the website<br>
+- [ ] Items are displayed properly based on the selected department and category<br>
+- [ ] Users can search items through search box
+      <br>
+- [ ] Support paging if we have too many items<br>
+- [ ] Users can see item details by selecting a specific item<br>
+- [ ] Users can add items to their shopping carts<br>
+- [ ] Users can register/login using website custom forms, or social login libraries<br>
+- [ ] Users can update personal profiles with shipping addresses and other info<br>
+- [ ] Users can checkout with 3rd party payment gateways: Stripe.
 
 ## Used Architecture/Technologies
 
