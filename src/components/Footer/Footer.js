@@ -16,7 +16,7 @@ const Footer = () => {
         <li className="twitter" />
         <li className="facebook" />
       </ul>
-      <div className="copy">©2016 shopmate Ltd • Contact • Privacy policy</div>
+      <div className="copy">©2019 shopmate Ltd • Contact • Privacy policy</div>
     </div>
   );
 };

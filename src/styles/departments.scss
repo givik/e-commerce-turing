@@ -8,6 +8,10 @@
   font-size: 15px;
 }
 
-.departments li {
+.departments ul li {
   margin: 0 22px;
+}
+
+.departments ul li.active {
+  color: $colorPrimary;
 }

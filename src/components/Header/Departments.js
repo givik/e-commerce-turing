@@ -4,7 +4,7 @@ const Departments = () => {
   return (
     <div className="departments">
       <ul>
-        <li>Woman</li>
+        <li className="active">Woman</li>
         <li>Men</li>
         <li>Kids</li>
         <li>Shoes</li>

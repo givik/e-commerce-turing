@@ -1,0 +1,25 @@
+.products {
+  text-align: center;
+  margin-top: 20px;
+}
+.products .item {
+  min-width: 300px;
+  display: inline-block;
+  margin-bottom: 50px;
+}
+.products .item .photo {
+  display: inherit;
+}
+
+.products .item .name {
+}
+
+.products .item .price {
+  font-family: 'Open Sans', sans-serif;
+  text-decoration: line-through;
+}
+
+.products .item .discounted {
+  color: $colorPrimary;
+  font-size: 16px;
+}
