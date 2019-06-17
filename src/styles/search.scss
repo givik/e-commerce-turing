@@ -1,0 +1,24 @@
+.search {
+  flex: 1;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.search input {
+  width: 260px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 18px;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  outline: 0;
+  background-image: url(../images/icons/search.svg);
+  padding-left: 40px;
+  background-repeat: no-repeat;
+  background-position: 13px;
+  font-size: 14px;
+}
+
+.search ::placeholder {
+  color: $colorSecondary;
+}

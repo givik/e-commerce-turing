@@ -21,8 +21,19 @@
 // default fonts for app
 @import url('https://fonts.googleapis.com/css?family=Montserrat:700|Open+Sans:300,700|Playfair+Display:400i,700&display=swap');
 
-* {
+html,
+body {
   /* font-family: 'Playfair Display', serif;
   font-family: 'Open Sans', sans-serif; */
   font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  font-size: 15px;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  color: inherit;
+  text-decoration: none;
 }

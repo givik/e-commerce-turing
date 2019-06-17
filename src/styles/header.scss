@@ -1,0 +1,14 @@
+.header .top {
+  height: 48px;
+  display: flex;
+  color: $colorText;
+  align-items: center;
+}
+
+.header .bottom {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  background: $colorText;
+  color: $colorSecondary;
+}

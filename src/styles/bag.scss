@@ -1,0 +1,30 @@
+.bag {
+  flex: 1;
+  text-align: right;
+  margin-right: 30px;
+}
+
+.bag .icon {
+  object-fit: contain;
+  padding: 10px 28px;
+  background: url(../images/icons/bag.svg) center no-repeat;
+}
+
+.bag .item-count {
+  border-radius: 100%;
+  width: 24px;
+  height: 24px;
+  background: $colorPrimary;
+  color: $colorSecondary;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  line-height: 24px;
+  font-size: 16px;
+  top: 4px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.bag .amount {
+  text-decoration: none;
+}

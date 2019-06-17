@@ -1,0 +1,11 @@
+.welcome {
+  flex: 1;
+  text-align: left;
+  margin-left: 30px;
+}
+
+.welcome .link {
+  color: $colorPrimary;
+  cursor: pointer;
+  text-decoration: none;
+}

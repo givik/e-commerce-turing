@@ -14,7 +14,7 @@ const App = () => {
   return (
     <div className="app">
       <Router history={history}>
-        <div>
+        <React.Fragment>
           <Header />
           <Switch>
             <Route path="/" exact component={Home} />
@@ -23,7 +23,7 @@ const App = () => {
             <Route path="/registration" exact component={Registration} />
           </Switch>
           <Footer />
-        </div>
+        </React.Fragment>
       </Router>
     </div>
   );
