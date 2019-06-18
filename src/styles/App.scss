@@ -50,3 +50,32 @@ button {
   outline: 0;
   cursor: pointer;
 }
+
+.radio .selection {
+  margin-bottom: 1em;
+  display: inline-block;
+}
+
+.radio .selection label {
+  display: inline-block;
+  width: 8em;
+  background-color: $colorText;
+  border-radius: 6px;
+  color: #ffffff;
+  padding: 0.5em;
+  cursor: pointer;
+  text-align: center;
+  margin: 4px;
+}
+
+.radio .selection label:hover {
+  background-color: $colorText;
+}
+
+.radio .selection input[type='radio'] {
+  display: none;
+}
+
+.radio .selection input[type='radio']:checked ~ label {
+  background-color: $colorPrimary;
+}

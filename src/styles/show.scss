@@ -1,0 +1,67 @@
+.show {
+  background: $colorBG;
+  margin: 30px;
+  min-height: 500px;
+  display: flex;
+}
+
+.show .gallery {
+  width: 50%;
+  display: inline-block;
+}
+
+.show .gallery .thumb {
+  padding: 30px 20% 0 30px;
+}
+
+.show .gallery .images {
+  text-align: center;
+  padding: 5px 20% 0 30px;
+}
+
+.show .gallery .images img {
+  display: inline-block;
+  width: 100px;
+  margin: 5px;
+}
+
+.show .info {
+  display: inline-block;
+}
+
+.show .info .name {
+  font-size: 30px;
+  margin-top: 30px;
+}
+
+.show .info .price {
+  font-size: 21px;
+  margin-top: 30px;
+  display: inline-block;
+  color: $colorPrimary;
+}
+
+.show .info .discounted {
+  font-size: 16px;
+  margin-top: 30px;
+  display: inline-block;
+  margin-bottom: 30px;
+  margin-left: 16px;
+  text-decoration: line-through;
+}
+
+.show .info .quantity {
+  display: flex;
+  margin-top: 20px;
+}
+
+.show .info .quantity input {
+  width: 40px;
+  text-align: center;
+  margin: 5px;
+}
+
+.show .info .add-to-cart {
+  color: $colorSecondary;
+  margin-top: 40px;
+}

@@ -4,7 +4,7 @@ const Search = () => {
   return (
     <div className="search">
       <input type="text" placeholder="search anything" />
-      <div className="results">
+      {/* <div className="results">
         <div className="item">
           <div className="photo">
             <img
@@ -35,7 +35,7 @@ const Search = () => {
           </div>
           <div className="name">Lorem Ipsum</div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

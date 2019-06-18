@@ -1,3 +1,40 @@
 .cart {
   text-decoration: none;
+  width: 900px;
+  margin: 50px auto;
+  padding: 0 0 60px 0;
+  border: 10px solid $colorBG;
+}
+
+.cart h2 {
+  margin: 50px;
+}
+
+.cart .cart-item {
+  text-align: center;
+}
+
+.cart .cart-item .item-photo,
+.cart .cart-item .item-name {
+  display: inline-block;
+}
+
+.cart .cart-item .item-photo {
+  width: 100px;
+}
+
+.cart .cart-item .item-quantity {
+  display: flex;
+  justify-content: center;
+}
+
+.cart .cart-item .item-quantity input {
+  width: 40px;
+  text-align: center;
+  margin: 5px;
+}
+
+.cart .cart-item .item-remove {
+  color: $colorPrimary;
+  cursor: pointer;
 }
