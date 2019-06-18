@@ -37,3 +37,16 @@ a:active {
   color: inherit;
   text-decoration: none;
 }
+
+input[type='text'],
+input[type='password'] {
+  outline: 0;
+}
+
+button {
+  background: $colorPrimary;
+  border: none;
+  border-radius: 30px;
+  outline: 0;
+  cursor: pointer;
+}

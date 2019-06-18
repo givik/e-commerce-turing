@@ -1,0 +1,25 @@
+.registration {
+  text-align: center;
+  border: 1px solid $colorText;
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+  padding: 30px;
+}
+
+.registration h1 {
+  margin-bottom: 50px;
+}
+
+.registration input[type='text'],
+input[type='password'] {
+  width: 250px;
+  margin: 2px;
+  padding: 10px;
+}
+
+.registration button {
+  margin: 10px;
+  color: $colorBG;
+  padding: 20px;
+}

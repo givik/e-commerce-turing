@@ -1,0 +1,24 @@
+.login {
+  text-align: center;
+  border: 1px solid $colorText;
+  width: 400px;
+  height: 400px;
+  margin: 20px auto;
+  padding: 30px;
+}
+
+.login h1 {
+  margin-bottom: 50px;
+}
+
+.login input[type='text'],
+input[type='password'] {
+  width: 250px;
+  margin: 2px;
+  padding: 10px;
+}
+
+.login button {
+  margin: 10px;
+  color: $colorBG;
+}
