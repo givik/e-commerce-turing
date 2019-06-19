@@ -39,11 +39,13 @@ a:active {
 }
 
 input[type='text'],
-input[type='password'] {
+input[type='password'],
+input[type='email'] {
   outline: 0;
 }
 
-button {
+button,
+input[type='submit'] {
   background: $colorPrimary;
   border: none;
   border-radius: 30px;

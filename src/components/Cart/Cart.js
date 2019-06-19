@@ -28,7 +28,7 @@ const Cart = () => {
             <td>
               <div className="item-quantity">
                 <button>-</button>
-                <input type="text" />
+                <input type="text" value="1" />
                 <button>+</button>
               </div>
             </td>

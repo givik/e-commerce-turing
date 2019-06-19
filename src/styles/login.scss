@@ -12,13 +12,15 @@
 }
 
 .login input[type='text'],
-input[type='password'] {
+.login input[type='email'],
+.login input[type='password'] {
   width: 250px;
   margin: 2px;
   padding: 10px;
 }
 
-.login button {
+.login input[type='submit'] {
   margin: 10px;
   color: $colorBG;
+  padding: 10px;
 }

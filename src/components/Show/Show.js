@@ -61,7 +61,7 @@ const Show = () => {
         </div>
         <div className="quantity">
           <button>-</button>
-          <input type="text" />
+          <input type="text" value="1" />
           <button>+</button>
         </div>
         <div className="add-to-cart">
