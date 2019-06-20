@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { customerPostFetch } from '../../actions';
+import { customerRegisterFetch } from '../../actions';
 
 class Registration extends React.Component {
   state = {
@@ -17,7 +17,7 @@ class Registration extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.customerPostFetch(this.state);
+    this.props.customerRegisterFetch(this.state);
   };
 
   render() {
@@ -63,5 +63,5 @@ class Registration extends React.Component {
 
 export default connect(
   null,
-  { customerPostFetch }
+  { customerRegisterFetch }
 )(Registration);
