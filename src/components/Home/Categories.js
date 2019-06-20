@@ -1,19 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getCategories } from '../../actions';
 
-const Categories = () => {
-  return (
-    <div className="categories">
-      <ul>
-        <li className="active">French</li>
-        <li>Italian</li>
-        <li>Irish</li>
-        <li>Animal</li>
-        <li>Flower</li>
-        <li>Christmas</li>
-        <li>Valentine's</li>
-      </ul>
-    </div>
-  );
+class Categories extends React.Component {
+  componentDidMount() {
+    this.props.getCategories();
+  }
+
+  render() {
+    return (
+      <div className="categories">
+        <ul>
+          {this.props.categories.map(category => {
+            return (
+              <li key={category.category_id} className="active">
+                {category.name}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return { categories: Object.values(state.categories) };
 };
 
-export default Categories;
+export default connect(
+  mapStateToProps,
+  { getCategories }
+)(Categories);

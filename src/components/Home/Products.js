@@ -1,94 +1,39 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { getProducts } from '../../actions';
+import { IMG_URL } from '../../apis/ecommerce';
 
-const Products = () => {
-  return (
-    <div className="products">
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
+class Products extends React.Component {
+  componentDidMount() {
+    this.props.getProducts();
+  }
+
+  render() {
+    console.log(this.props.products);
+    return (
+      <div className="products">
+        {this.props.products.map(product => {
+          return (
+            <div key={product.product_id} className="item">
+              <div className="photo">
+                <img alt="" width="200" src={IMG_URL + product.thumbnail} />
+              </div>
+              <div className="name">{product.name}</div>
+              <div className="price">{product.price}$</div>
+              <div className="discounted">{product.discounted_price}$</div>
+            </div>
+          );
+        })}
       </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-      <div className="item">
-        <div className="photo">
-          <img
-            alt=""
-            width="200"
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="name">Lorem Ipsum</div>
-        <div className="price">11$</div>
-        <div className="discounted">7$</div>
-      </div>
-    </div>
-  );
+    );
+  }
+}
+
+const mapStateToProps = state => {
+  return { products: Object.values(state.products) };
 };
 
-export default Products;
+export default connect(
+  mapStateToProps,
+  { getProducts }
+)(Products);
