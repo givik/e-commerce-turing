@@ -1,11 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCategories } from '../../actions';
+import history from '../../history';
+import { getCategories, getParams } from '../../actions';
 
 class Categories extends React.Component {
   componentDidMount() {
     this.props.getCategories();
   }
+
+  handleClick = category => {
+    const department = this.props.history.department || 'all';
+    history.push(`/${department}/${category.category_id}`);
+    this.props.getParams();
+  };
 
   render() {
     return (
@@ -13,7 +20,16 @@ class Categories extends React.Component {
         <ul>
           {this.props.categories.map(category => {
             return (
-              <li key={category.category_id} className="active">
+              <li
+                className={
+                  this.props.history.category ===
+                  category.category_id.toString()
+                    ? 'active'
+                    : ''
+                }
+                key={category.category_id}
+                onClick={() => this.handleClick(category)}
+              >
                 {category.name}
               </li>
             );
@@ -25,10 +41,10 @@ class Categories extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { categories: Object.values(state.categories) };
+  return { categories: Object.values(state.categories), params: state.params };
 };
 
 export default connect(
   mapStateToProps,
-  { getCategories }
+  { getCategories, getParams }
 )(Categories);

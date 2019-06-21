@@ -1,12 +1,14 @@
 import ecomerce from '../apis/ecommerce';
 import history from '../history';
+import { getParameterByName } from '../helpers';
 
 import {
   SIGN_IN,
   SIGN_OUT,
   GET_DEPARTMENTS,
   GET_CATEGORIES,
-  GET_PRODUCTS
+  GET_PRODUCTS,
+  GET_PARAMS
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
@@ -47,8 +49,6 @@ export const getLoginStatus = () => async dispatch => {
         localStorage.removeItem('token');
       });
   } else {
-    // alert();
-    // dispatch(signOutUser());
   }
 };
 
@@ -67,14 +67,64 @@ export const getDepartments = () => async dispatch => {
   dispatch({ type: GET_DEPARTMENTS, payload: response.data });
 };
 
-export const getCategories = () => async dispatch => {
-  const response = await ecomerce.get('/categories');
-
-  dispatch({ type: GET_CATEGORIES, payload: response.data.rows });
+export const getCategories = () => async (dispatch, getState) => {
+  if (
+    history.location.pathname.split('/')[1] &&
+    history.location.pathname.split('/')[1] !== 'all'
+  ) {
+    const response = await ecomerce.get(
+      `/categories/inDepartment/${history.location.pathname.split('/')[1]}`
+    );
+    dispatch({ type: GET_CATEGORIES, payload: response.data });
+  } else {
+    const response = await ecomerce.get('/categories');
+    dispatch({ type: GET_CATEGORIES, payload: response.data.rows });
+  }
 };
 
-export const getProducts = () => async dispatch => {
-  const response = await ecomerce.get('/products');
+export const getProducts = () => async (dispatch, getState) => {
+  const activePage = getParameterByName('page') || 1;
 
-  dispatch({ type: GET_PRODUCTS, payload: response.data.rows });
+  let response = '';
+
+  if (history.location.pathname.split('/')[2]) {
+    // on category
+    response = await ecomerce.get(
+      `/products/inCategory/${
+        history.location.pathname.split('/')[2]
+      }?page=${activePage}`
+    );
+  } else if (
+    history.location.pathname.split('/')[1] &&
+    history.location.pathname.split('/')[1] !== 'all'
+  ) {
+    response = await ecomerce.get(
+      `/products/inDepartment/${
+        history.location.pathname.split('/')[1]
+      }?page=${activePage}`
+    );
+  } else if (history.location.pathname.split('/')[1] === 'all') {
+    // all categories
+    response = await ecomerce.get(`/products?page=${activePage}`);
+  } else {
+    // all categories
+    response = await ecomerce.get(`/products?page=${activePage}`);
+  }
+
+  dispatch({
+    type: GET_PRODUCTS,
+    payload: response.data
+  });
+};
+
+export const getParams = () => async dispatch => {
+  // dispatch(getCategories());
+  dispatch(getProducts());
+  dispatch({
+    type: GET_PARAMS,
+    payload: {
+      department: history.location.pathname.split('/')[1] || null,
+      category: history.location.pathname.split('/')[2] || null
+    }
+  });
 };

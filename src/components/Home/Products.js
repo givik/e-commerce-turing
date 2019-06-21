@@ -9,7 +9,6 @@ class Products extends React.Component {
   }
 
   render() {
-    console.log(this.props.products);
     return (
       <div className="products">
         {this.props.products.map(product => {
@@ -30,7 +29,7 @@ class Products extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { products: Object.values(state.products) };
+  return { products: Object.values(state.products.rows) };
 };
 
 export default connect(

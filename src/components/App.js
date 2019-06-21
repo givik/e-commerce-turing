@@ -30,6 +30,8 @@ class App extends React.Component {
               <Route path="/show" exact component={Show} />
               <Route path="/login" exact component={Login} />
               <Route path="/registration" exact component={Registration} />
+              <Route path="/:department" exact component={Home} />
+              <Route path="/:department/:category" exact component={Home} />
             </Switch>
             <Footer />
           </React.Fragment>

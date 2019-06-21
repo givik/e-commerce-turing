@@ -1,14 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import history from '../../history';
+import { getParams } from '../../actions';
 
-const Logo = () => {
+const Logo = props => {
   return (
     <div className="logo">
-      <Link to="/">
-        <span className="branding" />
-      </Link>
+      <span
+        onClick={() => {
+          history.push(`/all`);
+          props.getParams();
+        }}
+        className="branding"
+      />
     </div>
   );
 };
 
-export default Logo;
+export default connect(
+  null,
+  { getParams }
+)(Logo);

@@ -1,11 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getDepartments } from '../../actions';
+import history from '../../history';
+import { getDepartments, getParams, getCategories } from '../../actions';
 
 class Departments extends React.Component {
   componentDidMount() {
     this.props.getDepartments();
   }
+
+  handleClick = department => {
+    history.push(`/${department.department_id}`);
+    this.props.getParams();
+    this.props.getCategories();
+  };
 
   render() {
     return (
@@ -13,7 +20,16 @@ class Departments extends React.Component {
         <ul>
           {this.props.departments.map(department => {
             return (
-              <li className="active" key={department.department_id}>
+              <li
+                className={
+                  history.location.pathname.split('/')[1] ===
+                  department.department_id.toString()
+                    ? 'active'
+                    : ''
+                }
+                key={department.department_id}
+                onClick={() => this.handleClick(department)}
+              >
                 {department.name}
               </li>
             );
@@ -30,5 +46,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getDepartments }
+  { getDepartments, getParams, getCategories }
 )(Departments);

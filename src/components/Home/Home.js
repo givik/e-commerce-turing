@@ -3,13 +3,13 @@ import Categories from './Categories';
 import Pagenation from './Pagenation';
 import Products from './Products';
 
-const Home = () => {
+const Home = props => {
   return (
     <div className="home">
-      <Categories />
+      <Categories history={props.match.params} />
       <div className="content">
-        <Pagenation />
-        <Products />
+        <Pagenation history={props.match.params} />
+        <Products history={props.match.params} />
       </div>
     </div>
   );
