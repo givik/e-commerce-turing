@@ -8,7 +8,8 @@ import {
   GET_DEPARTMENTS,
   GET_CATEGORIES,
   GET_PRODUCTS,
-  GET_PARAMS
+  GET_PARAMS,
+  GET_CART_ITEMS
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
@@ -127,4 +128,12 @@ export const getParams = () => async dispatch => {
       category: history.location.pathname.split('/')[2] || null
     }
   });
+};
+
+export const getCartItems = () => async dispatch => {
+  const response = await ecomerce.get(
+    `/shoppingcart/${localStorage.getItem('cart_id')}`
+  );
+
+  dispatch({ type: GET_CART_ITEMS, payload: response.data });
 };

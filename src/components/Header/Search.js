@@ -1,43 +1,63 @@
 import React from 'react';
+import ecomerse from '../../apis/ecommerce';
+import { IMG_URL } from '../../apis/ecommerce';
+import OutsideClickHandler from 'react-outside-click-handler';
 
-const Search = () => {
-  return (
-    <div className="search">
-      <input type="text" placeholder="search anything" />
-      {/* <div className="results">
-        <div className="item">
-          <div className="photo">
-            <img
-              alt=""
-              width="200"
-              src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-            />
-          </div>
-          <div className="name">Lorem Ipsum</div>
-        </div>
-        <div className="item">
-          <div className="photo">
-            <img
-              alt=""
-              width="200"
-              src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-            />
-          </div>
-          <div className="name">Lorem Ipsum</div>
-        </div>
-        <div className="item">
-          <div className="photo">
-            <img
-              alt=""
-              width="200"
-              src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-            />
-          </div>
-          <div className="name">Lorem Ipsum</div>
-        </div>
-      </div> */}
-    </div>
-  );
-};
+class Search extends React.Component {
+  state = { search: '', count: 0, rows: [] };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleSubmit = async event => {
+    event.preventDefault();
+    const response = await ecomerse.get(
+      `/products/search?query_string=${this.state.search}`
+    );
+    this.setState(response.data);
+  };
+
+  render() {
+    return (
+      <div className="search">
+        <form onSubmit={this.handleSubmit}>
+          <input
+            name="search"
+            value={this.state.search}
+            onChange={this.handleChange}
+            type="text"
+            placeholder="search anything"
+            autoComplete="off"
+          />
+          <OutsideClickHandler
+            onOutsideClick={() => {
+              this.setState({ count: 0, rows: [] });
+            }}
+          >
+            <div className="results">
+              {this.state.rows.map(item => {
+                return (
+                  <div key={item.product_id} className="item">
+                    <div className="photo">
+                      <img
+                        alt=""
+                        width="200"
+                        src={`${IMG_URL}${item.thumbnail}`}
+                      />
+                    </div>
+                    <div className="name">{`${item.name}`}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </OutsideClickHandler>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default Search;
