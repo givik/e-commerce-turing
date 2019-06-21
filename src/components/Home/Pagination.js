@@ -4,7 +4,7 @@ import history from '../../history';
 import { getParams } from '../../actions';
 import { getParameterByName } from '../../helpers';
 
-const Pagenation = props => {
+const Pagination = props => {
   let pages = 1;
 
   if (props.count >= 20) {
@@ -39,7 +39,7 @@ const Pagenation = props => {
   }
 
   return (
-    <div className="pagenation">
+    <div className="pagination">
       <ul>{items}</ul>
     </div>
   );
@@ -52,4 +52,4 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   { getParams }
-)(Pagenation);
+)(Pagination);

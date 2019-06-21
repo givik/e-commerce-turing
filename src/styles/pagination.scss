@@ -1,10 +1,10 @@
-.pagenation ul {
+.pagination ul {
   display: flex;
   justify-content: center;
   margin-top: 20px;
 }
 
-.pagenation ul li {
+.pagination ul li {
   font-size: 20px;
   background: $colorBG;
   margin: 6px;
@@ -15,6 +15,6 @@
   border-radius: 100%;
 }
 
-.pagenation ul li.active {
+.pagination ul li.active {
   color: #f62f5e;
 }

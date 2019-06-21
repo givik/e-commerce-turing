@@ -1,6 +1,6 @@
 import React from 'react';
 import Categories from './Categories';
-import Pagenation from './Pagenation';
+import Pagination from './Pagination';
 import Products from './Products';
 
 const Home = props => {
@@ -8,7 +8,7 @@ const Home = props => {
     <div className="home">
       <Categories history={props.match.params} />
       <div className="content">
-        <Pagenation history={props.match.params} />
+        <Pagination history={props.match.params} />
         <Products history={props.match.params} />
       </div>
     </div>

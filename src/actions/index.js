@@ -43,7 +43,7 @@ export const getLoginStatus = () => async dispatch => {
     ecomerce
       .get('/customer')
       .then(response => {
-        dispatch(signUser(response.data.customer));
+        dispatch(signUser(response.data));
       })
       .catch(error => {
         localStorage.removeItem('token');
