@@ -1,5 +1,6 @@
 import React from 'react';
 import ecomerse from '../../apis/ecommerce';
+import history from '../../history';
 import { IMG_URL } from '../../apis/ecommerce';
 import OutsideClickHandler from 'react-outside-click-handler';
 
@@ -40,7 +41,13 @@ class Search extends React.Component {
             <div className="results">
               {this.state.rows.map(item => {
                 return (
-                  <div key={item.product_id} className="item">
+                  <div
+                    key={item.product_id}
+                    className="item"
+                    onClick={() =>
+                      history.push(`/show?item=${item.product_id}`)
+                    }
+                  >
                     <div className="photo">
                       <img
                         alt=""

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getProducts } from '../../actions';
+import history from '../../history';
 import { IMG_URL } from '../../apis/ecommerce';
 
 class Products extends React.Component {
@@ -9,11 +10,17 @@ class Products extends React.Component {
   }
 
   render() {
+    console.log(history);
+
     return (
       <div className="products">
         {this.props.products.map(product => {
           return (
-            <div key={product.product_id} className="item">
+            <div
+              key={product.product_id}
+              className="item"
+              onClick={() => history.push(`/show?item=${product.product_id}`)}
+            >
               <div className="photo">
                 <img alt="" width="200" src={IMG_URL + product.thumbnail} />
               </div>

@@ -1,75 +1,153 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import ecomerse, { IMG_URL } from '../../apis/ecommerce';
+import { getParameterByName } from '../../helpers';
+import { addToCart } from '../../actions';
 
-const Show = () => {
-  return (
-    <div className="show">
-      <div className="gallery">
-        <div className="thumb">
-          <img
-            alt=""
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-        <div className="images">
-          <img
-            alt=""
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-          <img
-            alt=""
-            src="https://secure-cdn.logosoftwear.com/images_products2/9928/9928.zoom.jpg"
-          />
-        </div>
-      </div>
-      <div className="info">
-        <h3 className="name">Lorem Ipsum</h3>
-        <div className="price">$17</div>
-        <div className="discounted">$15</div>
-        <h3>Color</h3>
-        <div className="color">
-          <div className="radio">
-            <div className="selection">
-              <input id="name1" name="color" type="radio" />
-              <label htmlFor="name1">name1</label>
-            </div>
-            <div className="selection">
-              <input id="name2" name="color" type="radio" />
-              <label htmlFor="name2">name2</label>
-            </div>
-            <div className="selection">
-              <input id="name3" name="color" type="radio" />
-              <label htmlFor="name3">name3</label>
-            </div>
+class Show extends React.Component {
+  state = { attributes: [], form: { count: 1, size: '', color: '' } };
+
+  async componentDidMount() {
+    const responseProduct = await ecomerse.get(
+      `/products/${getParameterByName('item')}`
+    );
+
+    this.setState(responseProduct.data);
+
+    const responseAttributes = await ecomerse.get(
+      `/attributes/inProduct/${getParameterByName('item')}`
+    );
+
+    this.setState({ attributes: responseAttributes.data });
+
+    console.log(this.state);
+  }
+
+  handleChange = event => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        ...{ [event.target.name]: event.target.value }
+      }
+    });
+  };
+
+  increase = () => {
+    this.setState({
+      form: {
+        ...this.state.form,
+        ...{ count: this.state.form.count + 1 }
+      }
+    });
+  };
+
+  decrease = () => {
+    if (this.state.form.count)
+      this.setState({
+        form: {
+          ...this.state.form,
+          ...{ count: this.state.form.count - 1 }
+        }
+      });
+  };
+
+  handleAdd = event => {
+    this.props.addToCart(this.state);
+  };
+
+  render() {
+    return (
+      <div className="show">
+        <div className="gallery">
+          <div className="thumb">
+            <img alt="" src={`${IMG_URL}${this.state.thumbnail}`} width="900" />
+          </div>
+          <div className="images">
+            <img alt="" src={`${IMG_URL}${this.state.image}`} />
+            <img alt="" src={`${IMG_URL}${this.state.image_2}`} />
           </div>
         </div>
-        <div className="size">
-          <h3>Size</h3>
-          <div className="radio">
-            <div className="selection">
-              <input id="nam1" name="size" type="radio" />
-              <label htmlFor="nam1">name1</label>
-            </div>
-            <div className="selection">
-              <input id="nam2" name="size" type="radio" />
-              <label htmlFor="nam2">name2</label>
-            </div>
-            <div className="selection">
-              <input id="nam3" name="size" type="radio" />
-              <label htmlFor="nam3">name3</label>
+        <div className="info">
+          <h3 className="name">{this.state.name}</h3>
+          <div className="discounted">${this.state.discounted_price}</div>
+          <div className="price">${this.state.price}</div>
+          <h3>Color</h3>
+          <div className="color">
+            <div className="radio">
+              {this.state.attributes.map(attribute => {
+                if (attribute.attribute_name === 'Color') {
+                  return (
+                    <div
+                      className="selection"
+                      key={attribute.attribute_value_id}
+                    >
+                      <input
+                        id={attribute.attribute_value_id}
+                        onChange={this.handleChange}
+                        name="color"
+                        type="radio"
+                        value={attribute.attribute_value}
+                      />
+                      <label
+                        style={{
+                          background: attribute.attribute_value
+                        }}
+                        htmlFor={attribute.attribute_value_id}
+                      >
+                        {attribute.attribute_value}
+                      </label>
+                    </div>
+                  );
+                } else return null;
+              })}
             </div>
           </div>
-        </div>
-        <div className="quantity">
-          <button>-</button>
-          <input type="text" defaultValue="1" />
-          <button>+</button>
-        </div>
-        <div className="add-to-cart">
-          <button>Add to cart</button>
+          <div className="size">
+            <h3>Size</h3>
+            <div className="radio">
+              {this.state.attributes.map(attribute => {
+                if (attribute.attribute_name === 'Size') {
+                  return (
+                    <div
+                      className="selection"
+                      key={attribute.attribute_value_id}
+                    >
+                      <input
+                        id={attribute.attribute_value_id}
+                        onChange={this.handleChange}
+                        name="size"
+                        type="radio"
+                        value={attribute.attribute_value}
+                      />
+                      <label htmlFor={attribute.attribute_value_id}>
+                        {attribute.attribute_value}
+                      </label>
+                    </div>
+                  );
+                } else return null;
+              })}
+            </div>
+          </div>
+          <div className="quantity">
+            <button onClick={this.decrease}>-</button>
+            <input
+              name="quantity"
+              type="text"
+              onChange={this.handleChange}
+              value={this.state.form.count || ''}
+            />
+            <button onClick={this.increase}>+</button>
+          </div>
+          <div className="add-to-cart">
+            <button onClick={this.handleAdd}>Add to Cart</button>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default Show;
+export default connect(
+  null,
+  { addToCart }
+)(Show);

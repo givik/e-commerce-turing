@@ -15,6 +15,10 @@
   border-radius: 100%;
 }
 
+.pagination ul li:hover {
+  color: #f62f5e;
+}
+
 .pagination ul li.active {
   color: #f62f5e;
 }

@@ -9,7 +9,8 @@ import {
   GET_CATEGORIES,
   GET_PRODUCTS,
   GET_PARAMS,
-  GET_CART_ITEMS
+  GET_CART_ITEMS,
+  ADD_TO_CART
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
@@ -136,4 +137,16 @@ export const getCartItems = () => async dispatch => {
   );
 
   dispatch({ type: GET_CART_ITEMS, payload: response.data });
+};
+
+export const addToCart = formValues => async dispatch => {
+  const values = {
+    cart_id: localStorage.getItem('cart_id'),
+    product_id: formValues.product_id,
+    attributes: JSON.stringify(formValues.form)
+  };
+
+  const response = await ecomerce.post(`/shoppingcart/add`, values);
+
+  dispatch({ type: ADD_TO_CART, payload: response.data });
 };

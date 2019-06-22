@@ -3,13 +3,13 @@ import React from 'react';
 const Footer = () => {
   return (
     <div className="footer">
-      <ul className="menu">
+      {/* <ul className="menu">
         <li>Woman</li>
         <li>Man</li>
         <li>Kids</li>
         <li>Shoes</li>
         <li>Brands</li>
-      </ul>
+      </ul> */}
       <ul className="social">
         <li className="instagram" />
         <li className="pinterest" />

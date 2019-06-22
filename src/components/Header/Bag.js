@@ -5,19 +5,22 @@ import ecomerse from '../../apis/ecommerce';
 import { getCartItems } from '../../actions';
 
 class Bag extends React.Component {
-  amount = 0;
+  state = { amount: 0 };
+
   async componentDidMount() {
     if (!localStorage.getItem('cart_id')) {
       const responseGenerate = await ecomerse.get(
         '/shoppingcart/generateUniqueId'
       );
       localStorage.setItem('cart_id', responseGenerate.data.cart_id);
-    } else {
-      const responseAmount = await ecomerse.get(
-        `/shoppingcart/totalAmount/${localStorage.getItem('cart_id')}`
-      );
-      this.amount = responseAmount.data.total_amount;
     }
+    alert(1);
+    const responseAmount = await ecomerse.get(
+      `/shoppingcart/totalAmount/${localStorage.getItem('cart_id')}`
+    );
+
+    this.setState({ amount: responseAmount.data.total_amount });
+
     this.props.getCartItems();
   }
 
@@ -28,7 +31,7 @@ class Bag extends React.Component {
           <span className="icon">
             <span className="item-count">{this.props.count}</span>
           </span>
-          <span className="amount">Your bag: ${this.amount}</span>
+          <span className="amount">Your bag: ${this.state.amount}</span>
         </Link>
       </div>
     );

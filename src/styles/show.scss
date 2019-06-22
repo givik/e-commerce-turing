@@ -35,19 +35,19 @@
 }
 
 .show .info .price {
-  font-size: 21px;
-  margin-top: 30px;
-  display: inline-block;
-  color: $colorPrimary;
-}
-
-.show .info .discounted {
   font-size: 16px;
   margin-top: 30px;
   display: inline-block;
   margin-bottom: 30px;
   margin-left: 16px;
   text-decoration: line-through;
+}
+
+.show .info .discounted {
+  font-size: 21px;
+  margin-top: 30px;
+  display: inline-block;
+  color: $colorPrimary;
 }
 
 .show .info .quantity {
@@ -61,7 +61,9 @@
   margin: 5px;
 }
 
-.show .info .add-to-cart {
+.show .info .add-to-cart button {
+  padding: 14px;
+  width: 160px;
   color: $colorSecondary;
   margin-top: 40px;
 }

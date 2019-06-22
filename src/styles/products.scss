@@ -2,11 +2,21 @@
   text-align: center;
   margin-top: 20px;
 }
+
 .products .item {
   min-width: 300px;
   display: inline-block;
   margin-bottom: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 20px 0;
+  margin: 10px;
 }
+
+.products .item:hover {
+  box-shadow: 0px 0px 19px 0px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
 .products .item .photo {
   display: inherit;
 }

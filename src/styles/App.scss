@@ -63,7 +63,7 @@ input[type='submit'] {
   width: 8em;
   background-color: $colorText;
   border-radius: 6px;
-  color: #ffffff;
+  color: #cccccc;
   padding: 0.5em;
   cursor: pointer;
   text-align: center;
@@ -80,4 +80,5 @@ input[type='submit'] {
 
 .radio .selection input[type='radio']:checked ~ label {
   background-color: $colorPrimary;
+  border: 4px solid #cccccc;
 }
