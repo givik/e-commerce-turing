@@ -13,15 +13,17 @@ class Bag extends React.Component {
         '/shoppingcart/generateUniqueId'
       );
       localStorage.setItem('cart_id', responseGenerate.data.cart_id);
+    } else {
+      this.props.getCartItems();
     }
-    alert(1);
+  }
+
+  async componentWillReceiveProps() {
     const responseAmount = await ecomerse.get(
       `/shoppingcart/totalAmount/${localStorage.getItem('cart_id')}`
     );
 
     this.setState({ amount: responseAmount.data.total_amount });
-
-    this.props.getCartItems();
   }
 
   render() {

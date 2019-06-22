@@ -10,8 +10,6 @@ class Products extends React.Component {
   }
 
   render() {
-    console.log(history);
-
     return (
       <div className="products">
         {this.props.products.map(product => {

@@ -11,7 +11,7 @@
 - [x] Users can search items through search box<br>
 - [x] Support paging if we have too many items<br>
 - [x] Users can see item details by selecting a specific item<br>
-- [ ] Users can add items to their shopping carts<br>
+- [x] Users can add items to their shopping carts<br>
 - [x] Users can register/login using website custom forms, or social login libraries<br>
 - [ ] Users can update personal profiles with shipping addresses and other info<br>
 - [ ] Users can checkout with 3rd party payment gateways: Stripe.

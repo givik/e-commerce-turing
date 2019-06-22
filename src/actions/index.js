@@ -10,7 +10,8 @@ import {
   GET_PRODUCTS,
   GET_PARAMS,
   GET_CART_ITEMS,
-  ADD_TO_CART
+  ADD_TO_CART,
+  REMOVE_FROM_CART
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
@@ -120,7 +121,6 @@ export const getProducts = () => async (dispatch, getState) => {
 };
 
 export const getParams = () => async dispatch => {
-  // dispatch(getCategories());
   dispatch(getProducts());
   dispatch({
     type: GET_PARAMS,
@@ -149,4 +149,14 @@ export const addToCart = formValues => async dispatch => {
   const response = await ecomerce.post(`/shoppingcart/add`, values);
 
   dispatch({ type: ADD_TO_CART, payload: response.data });
+};
+
+export const removeItem = itemId => async (dispatch, getState) => {
+  await ecomerce.delete(`/shoppingcart/removeProduct/${itemId}`);
+
+  const items = Object.values(getState().cart).filter(
+    item => item.item_id !== itemId
+  );
+
+  dispatch({ type: REMOVE_FROM_CART, payload: items });
 };

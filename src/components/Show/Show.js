@@ -5,7 +5,10 @@ import { getParameterByName } from '../../helpers';
 import { addToCart } from '../../actions';
 
 class Show extends React.Component {
-  state = { attributes: [], form: { count: 1, size: '', color: '' } };
+  state = { attributes: [], count: 1, form: { size: '', color: '' } };
+
+  colors = [];
+  sizes = [];
 
   async componentDidMount() {
     const responseProduct = await ecomerse.get(
@@ -18,9 +21,12 @@ class Show extends React.Component {
       `/attributes/inProduct/${getParameterByName('item')}`
     );
 
-    this.setState({ attributes: responseAttributes.data });
+    responseAttributes.data.forEach(attribute => {
+      if (attribute.attribute_name === 'Color') this.colors.push(attribute);
+      else if (attribute.attribute_name === 'Size') this.sizes.push(attribute);
+    });
 
-    console.log(this.state);
+    this.setState({ attributes: responseAttributes.data });
   }
 
   handleChange = event => {
@@ -34,25 +40,29 @@ class Show extends React.Component {
 
   increase = () => {
     this.setState({
-      form: {
-        ...this.state.form,
-        ...{ count: this.state.form.count + 1 }
-      }
+      count: this.state.count + 1
     });
   };
 
   decrease = () => {
     if (this.state.form.count)
       this.setState({
-        form: {
-          ...this.state.form,
-          ...{ count: this.state.form.count - 1 }
-        }
+        count: this.state.count - 1
       });
   };
 
   handleAdd = event => {
-    this.props.addToCart(this.state);
+    let error = false;
+    if (!this.state.form.color) {
+      error = true;
+      alert('Please select color');
+    }
+    if (!this.state.form.size) {
+      error = true;
+      alert('Please select size');
+    }
+
+    if (!error) this.props.addToCart(this.state);
   };
 
   render() {
@@ -71,41 +81,39 @@ class Show extends React.Component {
           <h3 className="name">{this.state.name}</h3>
           <div className="discounted">${this.state.discounted_price}</div>
           <div className="price">${this.state.price}</div>
+          <div className="description">{this.state.description}</div>
           <h3>Color</h3>
           <div className="color">
             <div className="radio">
-              {this.state.attributes.map(attribute => {
-                if (attribute.attribute_name === 'Color') {
-                  return (
-                    <div
-                      className="selection"
-                      key={attribute.attribute_value_id}
+              {this.colors.map((attribute, index) => {
+                console.log(attribute.attribute_value);
+                return (
+                  <div className="selection" key={attribute.attribute_value_id}>
+                    <input
+                      // checked={!index ? 'checked' : ''}
+                      id={attribute.attribute_value_id}
+                      onChange={this.handleChange}
+                      name="color"
+                      type="radio"
+                      value={attribute.attribute_value}
+                    />
+                    <label
+                      style={{
+                        background: attribute.attribute_value
+                      }}
+                      htmlFor={attribute.attribute_value_id}
                     >
-                      <input
-                        id={attribute.attribute_value_id}
-                        onChange={this.handleChange}
-                        name="color"
-                        type="radio"
-                        value={attribute.attribute_value}
-                      />
-                      <label
-                        style={{
-                          background: attribute.attribute_value
-                        }}
-                        htmlFor={attribute.attribute_value_id}
-                      >
-                        {attribute.attribute_value}
-                      </label>
-                    </div>
-                  );
-                } else return null;
+                      {attribute.attribute_value}
+                    </label>
+                  </div>
+                );
               })}
             </div>
           </div>
           <div className="size">
             <h3>Size</h3>
             <div className="radio">
-              {this.state.attributes.map(attribute => {
+              {this.sizes.map((attribute, index) => {
                 if (attribute.attribute_name === 'Size') {
                   return (
                     <div
@@ -113,6 +121,7 @@ class Show extends React.Component {
                       key={attribute.attribute_value_id}
                     >
                       <input
+                        // checked={!index ? 'checked' : ''}
                         id={attribute.attribute_value_id}
                         onChange={this.handleChange}
                         name="size"
@@ -134,7 +143,7 @@ class Show extends React.Component {
               name="quantity"
               type="text"
               onChange={this.handleChange}
-              value={this.state.form.count || ''}
+              value={this.state.count || ''}
             />
             <button onClick={this.increase}>+</button>
           </div>
