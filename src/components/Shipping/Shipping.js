@@ -23,19 +23,16 @@ class Shipping extends React.Component {
     this.regions = response.data;
     console.log(this.regions);
     this.setState({
-      // address_1: props.user.address_1,
-      // address_2: props.user.address_2,
-      // city: props.user.city,
-      // region: props.user.region,
-      // postal_code: props.user.postal_code,
-      // country: props.user.country,
-      // shipping_region_id: props.user.shipping_region_id
-      ...this.state
+      ...this.state,
+      ...{ selected: props.user.shipping_region_id }
     });
   }
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({
+      [event.target.name]: event.target.value,
+      ...{ selected: event.target.shipping_region_id }
+    });
   };
 
   handleSubmit = async event => {
@@ -123,7 +120,7 @@ class Shipping extends React.Component {
           <div className="shipping_region_id">
             <select
               name="shipping_region_id"
-              // value={this.props.user.shipping_region_id}
+              value={this.state.selected}
               onChange={this.handleChange}
             >
               {this.regions.map(region => {
