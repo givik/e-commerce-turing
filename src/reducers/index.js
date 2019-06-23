@@ -6,7 +6,6 @@ import CartReducer from './CartReducer';
 import ParamsReducer from './ParamsReducer';
 import DepartmentsReducer from './DepartmentsReducer';
 import CategoriesReducer from './CategoriesReducer';
-import CustomersReducer from './CustomerReducer';
 import ProductsReducer from './ProductsReducer';
 
 export default combineReducers({
@@ -16,6 +15,5 @@ export default combineReducers({
   departments: DepartmentsReducer,
   categories: CategoriesReducer,
   products: ProductsReducer,
-  customer: CustomersReducer,
   form: formReducer
 });

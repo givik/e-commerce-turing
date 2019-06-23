@@ -66,6 +66,7 @@ class Show extends React.Component {
   };
 
   render() {
+    if (!this.state.attributes.length) return null;
     return (
       <div className="show">
         <div className="gallery">
@@ -86,7 +87,6 @@ class Show extends React.Component {
           <div className="color">
             <div className="radio">
               {this.colors.map((attribute, index) => {
-                console.log(attribute.attribute_value);
                 return (
                   <div className="selection" key={attribute.attribute_value_id}>
                     <input

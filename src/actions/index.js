@@ -41,7 +41,7 @@ export const customerLoginFetch = formValues => async dispatch => {
     });
 };
 
-export const getLoginStatus = () => async dispatch => {
+export const fetchUsersData = () => async dispatch => {
   if (localStorage.token) {
     ecomerce
       .get('/customer')

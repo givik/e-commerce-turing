@@ -24,7 +24,14 @@ const Welcome = props => {
     return (
       <div className="welcome">
         <React.Fragment>
-          Hi {props.currentUser.name}
+          Hi
+          <div className="dropdown">
+            <button className="dropbtn">{props.currentUser.name}&#9662;</button>
+            <div className="dropdown-content">
+              <Link to="/profile">My Profile</Link>
+              <Link to="/shipping">Shipping Address</Link>
+            </div>
+          </div>
           {'! '}
           <button
             onClick={() => {

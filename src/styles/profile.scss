@@ -1,0 +1,27 @@
+.profile {
+  text-decoration: none;
+  width: 900px;
+  margin: 50px auto;
+  padding: 30px 30px;
+  border: 10px solid $colorBG;
+}
+
+.profile form > div {
+  display: inline-block;
+  width: 400px;
+}
+
+.profile input[type='text'],
+.profile input[type='email'],
+.profile input[type='password'] {
+  padding: 14px;
+  width: 300px;
+  margin: 20px;
+}
+
+.profile input[type='submit'] {
+  padding: 14px;
+  width: 200px;
+  margin: 20px;
+  color: $colorSecondary;
+}

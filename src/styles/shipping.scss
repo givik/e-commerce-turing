@@ -1,0 +1,28 @@
+.shipping {
+  text-decoration: none;
+  width: 900px;
+  margin: 50px auto;
+  padding: 30px 30px;
+  border: 10px solid $colorBG;
+}
+
+.shipping form > div {
+  display: inline-block;
+  width: 400px;
+}
+
+.shipping input[type='text'],
+.shipping input[type='email'],
+.shipping input[type='password'],
+select {
+  padding: 14px;
+  width: 300px;
+  margin: 20px;
+}
+
+.shipping input[type='submit'] {
+  padding: 14px;
+  width: 200px;
+  margin: 20px;
+  color: $colorSecondary;
+}
