@@ -121,6 +121,7 @@ export const getProducts = () => async (dispatch, getState) => {
 };
 
 export const getParams = () => async dispatch => {
+  dispatch(getCategories());
   dispatch(getProducts());
   dispatch({
     type: GET_PARAMS,
