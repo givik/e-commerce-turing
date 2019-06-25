@@ -49,7 +49,6 @@ export const fetchUsersData = () => async dispatch => {
         dispatch(signUser(response.data));
       })
       .catch(error => {
-        alert(1);
         localStorage.removeItem('token');
       });
   } else {
