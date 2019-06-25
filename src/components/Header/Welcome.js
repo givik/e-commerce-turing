@@ -29,6 +29,7 @@ const Welcome = props => {
             <button className="dropbtn">{props.currentUser.name}&#9662;</button>
             <div className="dropdown-content">
               <Link to="/profile">My Profile</Link>
+              <Link to="/orders">My Orders</Link>
               <Link to="/shipping">Shipping Address</Link>
             </div>
           </div>

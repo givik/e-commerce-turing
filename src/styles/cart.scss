@@ -38,3 +38,17 @@
   color: $colorPrimary;
   cursor: pointer;
 }
+
+.cart .place-order button {
+  float: left;
+  // display: inline-block;
+}
+
+.cart .place-order button {
+  float: right;
+  color: $colorSecondary;
+  margin: 0 40px 0 0;
+  position: relative;
+  top: -50px;
+  font-size: 18px;
+}

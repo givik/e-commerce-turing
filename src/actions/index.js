@@ -1,4 +1,4 @@
-import ecomerce from '../apis/ecommerce';
+import ecommerce from '../apis/ecommerce';
 import history from '../history';
 import { getParameterByName } from '../helpers';
 
@@ -15,7 +15,7 @@ import {
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
-  ecomerce
+  ecommerce
     .post('/customers', formValues)
     .then(response => {
       alert('You have successfully registered.');
@@ -29,7 +29,7 @@ export const customerRegisterFetch = formValues => async dispatch => {
 };
 
 export const customerLoginFetch = formValues => async dispatch => {
-  ecomerce
+  ecommerce
     .post('/customers/login', formValues)
     .then(response => {
       localStorage.setItem('token', response.data.accessToken);
@@ -43,12 +43,13 @@ export const customerLoginFetch = formValues => async dispatch => {
 
 export const fetchUsersData = () => async dispatch => {
   if (localStorage.token) {
-    ecomerce
+    ecommerce
       .get('/customer')
       .then(response => {
         dispatch(signUser(response.data));
       })
       .catch(error => {
+        alert(1);
         localStorage.removeItem('token');
       });
   } else {
@@ -65,7 +66,7 @@ export const signOutUser = user => ({
 });
 
 export const getDepartments = () => async dispatch => {
-  const response = await ecomerce.get('/departments');
+  const response = await ecommerce.get('/departments');
 
   dispatch({ type: GET_DEPARTMENTS, payload: response.data });
 };
@@ -75,12 +76,12 @@ export const getCategories = () => async (dispatch, getState) => {
     history.location.pathname.split('/')[1] &&
     history.location.pathname.split('/')[1] !== 'all'
   ) {
-    const response = await ecomerce.get(
+    const response = await ecommerce.get(
       `/categories/inDepartment/${history.location.pathname.split('/')[1]}`
     );
     dispatch({ type: GET_CATEGORIES, payload: response.data });
   } else {
-    const response = await ecomerce.get('/categories');
+    const response = await ecommerce.get('/categories');
     dispatch({ type: GET_CATEGORIES, payload: response.data.rows });
   }
 };
@@ -92,7 +93,7 @@ export const getProducts = () => async (dispatch, getState) => {
 
   if (history.location.pathname.split('/')[2]) {
     // on category
-    response = await ecomerce.get(
+    response = await ecommerce.get(
       `/products/inCategory/${
         history.location.pathname.split('/')[2]
       }?page=${activePage}`
@@ -101,17 +102,17 @@ export const getProducts = () => async (dispatch, getState) => {
     history.location.pathname.split('/')[1] &&
     history.location.pathname.split('/')[1] !== 'all'
   ) {
-    response = await ecomerce.get(
+    response = await ecommerce.get(
       `/products/inDepartment/${
         history.location.pathname.split('/')[1]
       }?page=${activePage}`
     );
   } else if (history.location.pathname.split('/')[1] === 'all') {
     // all categories
-    response = await ecomerce.get(`/products?page=${activePage}`);
+    response = await ecommerce.get(`/products?page=${activePage}`);
   } else {
     // all categories
-    response = await ecomerce.get(`/products?page=${activePage}`);
+    response = await ecommerce.get(`/products?page=${activePage}`);
   }
 
   dispatch({
@@ -133,7 +134,7 @@ export const getParams = () => async dispatch => {
 };
 
 export const getCartItems = () => async dispatch => {
-  const response = await ecomerce.get(
+  const response = await ecommerce.get(
     `/shoppingcart/${localStorage.getItem('cart_id')}`
   );
 
@@ -147,17 +148,31 @@ export const addToCart = formValues => async dispatch => {
     attributes: JSON.stringify(formValues.form)
   };
 
-  const response = await ecomerce.post(`/shoppingcart/add`, values);
+  const response = await ecommerce.post(`/shoppingcart/add`, values);
 
   dispatch({ type: ADD_TO_CART, payload: response.data });
 };
 
 export const removeItem = itemId => async (dispatch, getState) => {
-  await ecomerce.delete(`/shoppingcart/removeProduct/${itemId}`);
+  await ecommerce.delete(`/shoppingcart/removeProduct/${itemId}`);
 
   const items = Object.values(getState().cart).filter(
     item => item.item_id !== itemId
   );
 
   dispatch({ type: REMOVE_FROM_CART, payload: items });
+};
+
+export const createOrder = () => async (dispatch, getState) => {
+  //! (incomplete API) Hardcoded shipping_id & tax_id
+  const values = {
+    cart_id: localStorage.getItem('cart_id'),
+    shipping_id: 2,
+    tax_id: 2
+  };
+
+  await ecommerce.post(`/orders`, values);
+
+  dispatch(getCartItems());
+  history.push('/orders');
 };

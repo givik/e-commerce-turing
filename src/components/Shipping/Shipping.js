@@ -21,7 +21,6 @@ class Shipping extends React.Component {
   async componentWillReceiveProps(props) {
     const response = await ecomerse.get(`/shipping/regions`);
     this.regions = response.data;
-    console.log(this.regions);
     this.setState({
       ...this.state,
       ...{ selected: props.user.shipping_region_id }

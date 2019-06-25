@@ -1,0 +1,34 @@
+.orders {
+  border: 10px solid $colorBG;
+  width: 1000px;
+  margin: 50px auto;
+  padding: 30px;
+}
+
+.orders .order {
+  background: $colorBG;
+  margin: 10px 0;
+  padding: 10px;
+  height: 60px;
+}
+
+.orders .order span {
+  margin: 0 5px;
+}
+
+.orders .order .order-id {
+  margin-right: 10px;
+  color: $colorPrimary;
+  font-size: 18px;
+}
+
+.orders .order .checked {
+  font-size: 30px;
+  float: right;
+  color: $colorPrimary;
+  margin-right: 50px;
+}
+
+.orders .order .checkout-btn {
+  float: right;
+}

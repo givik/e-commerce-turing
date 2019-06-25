@@ -9,6 +9,7 @@ import Header from './Header/Header';
 import Footer from './Footer/Footer';
 import Home from './Home/Home';
 import Cart from './Cart/Cart';
+import Orders from './Orders/Orders';
 import Show from './Show/Show';
 import Login from './Sign/Login';
 import Registration from './Sign/Registration';
@@ -29,6 +30,7 @@ class App extends React.Component {
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/cart" exact component={Cart} />
+              <Route path="/orders" exact component={Orders} />
               <Route path="/show" exact component={Show} />
               <Route path="/login" exact component={Login} />
               <Route path="/profile" exact component={Profile} />
