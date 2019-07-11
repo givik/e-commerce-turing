@@ -25,6 +25,14 @@ Redux-thunk<br>
 Axios<br>
 Sass<br>
 
+### `git clone`
+
+Downloads the project.<br>
+
+### `npm install`
+
+Installs dependencies for application.<br>
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
