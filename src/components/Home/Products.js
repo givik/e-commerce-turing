@@ -23,8 +23,21 @@ class Products extends React.Component {
                 <img alt="" width="200" src={IMG_URL + product.thumbnail} />
               </div>
               <div className="name">{product.name}</div>
-              <div className="price">{product.price}$</div>
-              <div className="discounted">{product.discounted_price}$</div>
+              {!parseFloat(product.discounted_price) ? (
+                <div
+                  className="price"
+                  style={{
+                    textDecoration: 'none'
+                  }}
+                >
+                  ${product.price}
+                </div>
+              ) : (
+                <React.Fragment>
+                  <div className="discounted">${product.discounted_price}</div>
+                  <div className="price">${product.price}</div>
+                </React.Fragment>
+              )}
             </div>
           );
         })}

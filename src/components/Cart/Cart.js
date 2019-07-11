@@ -1,17 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getCartItems, removeItem, createOrder } from '../../actions';
+import {
+  getCartItems,
+  removeItem,
+  createOrder,
+  getTotalAmount
+} from '../../actions';
 import { IMG_URL } from '../../apis/ecommerce';
 
-class Cart extends React.Component {
+class Cart extends React.PureComponent {
   componentDidMount() {
-    // this.props.getCartItems();
+    this.props.getTotalAmount();
   }
 
   render() {
     return (
       <div className="cart">
-        <h2>Item(s) In Your Cart</h2>
+        <h2>
+          Item(s) In Your Cart (<span>{this.props.totalAmount}$</span>)
+        </h2>
         <div className="place-order">
           <button onClick={this.props.createOrder}>Place an order</button>
         </div>
@@ -44,7 +51,7 @@ class Cart extends React.Component {
                   <td>
                     <div className="item-quantity">
                       <button>-</button>
-                      <input type="text" defaultValue="1" />
+                      <input type="text" defaultValue={item.quantity} />
                       <button>+</button>
                     </div>
                   </td>
@@ -71,10 +78,13 @@ class Cart extends React.Component {
 
 const mapStateToProps = state => {
   // console.log(state.cart);
-  return { items: Object.values(state.cart) };
+  return {
+    items: Object.values(state.cart),
+    totalAmount: Object.values(state.totalAmount)
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { getCartItems, removeItem, createOrder }
+  { getCartItems, removeItem, createOrder, getTotalAmount }
 )(Cart);

@@ -45,7 +45,7 @@ class Show extends React.Component {
   };
 
   decrease = () => {
-    if (this.state.form.count)
+    if (this.state.count > 1)
       this.setState({
         count: this.state.count - 1
       });
@@ -80,8 +80,22 @@ class Show extends React.Component {
         </div>
         <div className="info">
           <h3 className="name">{this.state.name}</h3>
-          <div className="discounted">${this.state.discounted_price}</div>
-          <div className="price">${this.state.price}</div>
+          {!parseFloat(this.state.discounted_price) ? (
+            <div
+              className="price"
+              style={{
+                textDecoration: 'none'
+              }}
+            >
+              ${this.state.price}
+            </div>
+          ) : (
+            <React.Fragment>
+              <div className="discounted">${this.state.discounted_price}</div>
+              <div className="price">${this.state.price}</div>
+            </React.Fragment>
+          )}
+
           <div className="description">{this.state.description}</div>
           <h3>Color</h3>
           <div className="color">

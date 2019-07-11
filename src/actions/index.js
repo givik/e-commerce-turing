@@ -11,7 +11,8 @@ import {
   GET_PARAMS,
   GET_CART_ITEMS,
   ADD_TO_CART,
-  REMOVE_FROM_CART
+  REMOVE_FROM_CART,
+  GET_TOTAL_AMOUNT
 } from './types';
 
 export const customerRegisterFetch = formValues => async dispatch => {
@@ -150,6 +151,16 @@ export const addToCart = formValues => async dispatch => {
   const response = await ecommerce.post(`/shoppingcart/add`, values);
 
   dispatch({ type: ADD_TO_CART, payload: response.data });
+
+  dispatch(getTotalAmount());
+};
+
+export const getTotalAmount = () => async dispatch => {
+  const response = await ecommerce.get(
+    `/shoppingcart/totalAmount/${localStorage.getItem('cart_id')}`
+  );
+
+  dispatch({ type: GET_TOTAL_AMOUNT, payload: response.data.total_amount });
 };
 
 export const removeItem = itemId => async (dispatch, getState) => {
@@ -163,15 +174,19 @@ export const removeItem = itemId => async (dispatch, getState) => {
 };
 
 export const createOrder = () => async (dispatch, getState) => {
-  //! (incomplete API) Hardcoded shipping_id & tax_id
-  const values = {
-    cart_id: localStorage.getItem('cart_id'),
-    shipping_id: 2,
-    tax_id: 2
-  };
+  if (localStorage.token) {
+    //! (incomplete API) Hardcoded shipping_id & tax_id
+    const values = {
+      cart_id: localStorage.getItem('cart_id'),
+      shipping_id: 2,
+      tax_id: 2
+    };
 
-  await ecommerce.post(`/orders`, values);
+    await ecommerce.post(`/orders`, values);
 
-  dispatch(getCartItems());
-  history.push('/orders');
+    dispatch(getCartItems());
+    history.push('/orders');
+  } else {
+    history.push('/login');
+  }
 };

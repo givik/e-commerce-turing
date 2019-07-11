@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ecomerse from '../../apis/ecommerce';
-import { getCartItems } from '../../actions';
+import { getCartItems, getTotalAmount } from '../../actions';
 
-class Bag extends React.Component {
+class Bag extends React.PureComponent {
   state = { amount: 0 };
 
   async componentDidMount() {
@@ -16,14 +16,8 @@ class Bag extends React.Component {
     } else {
       this.props.getCartItems();
     }
-  }
 
-  async componentWillReceiveProps() {
-    const responseAmount = await ecomerse.get(
-      `/shoppingcart/totalAmount/${localStorage.getItem('cart_id')}`
-    );
-
-    this.setState({ amount: responseAmount.data.total_amount });
+    this.props.getTotalAmount();
   }
 
   render() {
@@ -33,7 +27,7 @@ class Bag extends React.Component {
           <span className="icon">
             <span className="item-count">{this.props.count}</span>
           </span>
-          <span className="amount">Your bag: ${this.state.amount}</span>
+          <span className="amount">Your bag: ${this.props.totalAmount}</span>
         </Link>
       </div>
     );
@@ -41,10 +35,13 @@ class Bag extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { count: Object.values(state.cart).length };
+  return {
+    count: Object.values(state.cart).length,
+    totalAmount: Object.values(state.totalAmount)
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { getCartItems }
+  { getCartItems, getTotalAmount }
 )(Bag);

@@ -7,10 +7,12 @@ import ParamsReducer from './ParamsReducer';
 import DepartmentsReducer from './DepartmentsReducer';
 import CategoriesReducer from './CategoriesReducer';
 import ProductsReducer from './ProductsReducer';
+import TotalAmountReducer from './TotalAmountReducer';
 
 export default combineReducers({
   auth: AuthReducer,
   cart: CartReducer,
+  totalAmount: TotalAmountReducer,
   params: ParamsReducer,
   departments: DepartmentsReducer,
   categories: CategoriesReducer,
