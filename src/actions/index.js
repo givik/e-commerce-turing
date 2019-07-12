@@ -153,6 +153,20 @@ export const addToCart = formValues => async dispatch => {
   dispatch({ type: ADD_TO_CART, payload: response.data });
 
   dispatch(getTotalAmount());
+
+  dispatch(
+    updateCartItem(
+      response.data[0].item_id,
+      formValues.count + response.data[0].quantity - 1
+    )
+  );
+
+  dispatch(getCartItems());
+};
+
+export const updateCartItem = (itemId, quantity) => async dispatch => {
+  const values = { item_id: itemId, quantity };
+  console.log(await ecommerce.put(`/shoppingcart/update/${itemId}`, values));
 };
 
 export const getTotalAmount = () => async dispatch => {

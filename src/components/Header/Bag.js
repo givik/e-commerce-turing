@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ecomerse from '../../apis/ecommerce';
 import { getCartItems, getTotalAmount } from '../../actions';
 
-class Bag extends React.PureComponent {
+class Bag extends React.Component {
   state = { amount: 0 };
 
   async componentDidMount() {

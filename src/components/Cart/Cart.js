@@ -4,14 +4,28 @@ import {
   getCartItems,
   removeItem,
   createOrder,
-  getTotalAmount
+  getTotalAmount,
+  updateCartItem
 } from '../../actions';
 import { IMG_URL } from '../../apis/ecommerce';
 
-class Cart extends React.PureComponent {
+class Cart extends React.Component {
   componentDidMount() {
     this.props.getTotalAmount();
   }
+
+  increase = () => {
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+
+  decrease = () => {
+    if (this.state.count > 1)
+      this.setState({
+        count: this.state.count - 1
+      });
+  };
 
   render() {
     return (
@@ -50,9 +64,21 @@ class Cart extends React.PureComponent {
                   </td>
                   <td>
                     <div className="item-quantity">
-                      <button>-</button>
+                      <button
+                        onClick={() =>
+                          this.increase(item.item_id, item.quantity)
+                        }
+                      >
+                        -
+                      </button>
                       <input type="text" defaultValue={item.quantity} />
-                      <button>+</button>
+                      <button
+                        onClick={() =>
+                          this.increase(item.item_id, item.quantity)
+                        }
+                      >
+                        +
+                      </button>
                     </div>
                   </td>
                   <td>
@@ -86,5 +112,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getCartItems, removeItem, createOrder, getTotalAmount }
+  { getCartItems, removeItem, createOrder, getTotalAmount, updateCartItem }
 )(Cart);

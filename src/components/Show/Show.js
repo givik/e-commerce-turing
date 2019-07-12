@@ -61,7 +61,7 @@ class Show extends React.Component {
       error = true;
       alert('Please select size');
     }
-
+    console.log(this.state);
     if (!error) this.props.addToCart(this.state);
   };
 

@@ -1,6 +1,10 @@
 .products {
   text-align: center;
   margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
 }
 
 .products .item {
@@ -19,6 +23,10 @@
 
 .products .item .photo {
   display: inherit;
+}
+
+.products .item .photo img {
+  margin: auto;
 }
 
 .products .item .name {
