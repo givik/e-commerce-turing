@@ -14,17 +14,14 @@ class Cart extends React.Component {
     this.props.getTotalAmount();
   }
 
-  increase = () => {
-    this.setState({
-      count: this.state.count + 1
-    });
+  componentDidUpdate() {}
+
+  increase = (itemId, quantity) => {
+    this.props.updateCartItem(itemId, quantity + 1);
   };
 
-  decrease = () => {
-    if (this.state.count > 1)
-      this.setState({
-        count: this.state.count - 1
-      });
+  decrease = (itemId, quantity) => {
+    if (quantity > 1) this.props.updateCartItem(itemId, quantity - 1);
   };
 
   render() {
@@ -66,12 +63,12 @@ class Cart extends React.Component {
                     <div className="item-quantity">
                       <button
                         onClick={() =>
-                          this.increase(item.item_id, item.quantity)
+                          this.decrease(item.item_id, item.quantity)
                         }
                       >
                         -
                       </button>
-                      <input type="text" defaultValue={item.quantity} />
+                      <input type="text" readOnly value={item.quantity} />
                       <button
                         onClick={() =>
                           this.increase(item.item_id, item.quantity)

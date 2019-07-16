@@ -4,7 +4,7 @@ import ecomerse, { IMG_URL } from '../../apis/ecommerce';
 import { getParameterByName } from '../../helpers';
 import { addToCart } from '../../actions';
 
-class Show extends React.Component {
+export class Show extends React.Component {
   state = { attributes: [], count: 1, form: { size: '', color: '' } };
 
   colors = [];
@@ -12,7 +12,10 @@ class Show extends React.Component {
 
   async componentDidMount() {
     const responseProduct = await ecomerse.get(
-      `/products/${getParameterByName('item')}`
+      `/products/${getParameterByName(
+        'item',
+        this.props.history.location.search
+      )}`
     );
 
     this.setState(responseProduct.data);

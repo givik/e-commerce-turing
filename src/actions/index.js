@@ -160,13 +160,14 @@ export const addToCart = formValues => async dispatch => {
       formValues.count + response.data[0].quantity - 1
     )
   );
-
-  dispatch(getCartItems());
 };
 
 export const updateCartItem = (itemId, quantity) => async dispatch => {
   const values = { item_id: itemId, quantity };
-  console.log(await ecommerce.put(`/shoppingcart/update/${itemId}`, values));
+  await ecommerce.put(`/shoppingcart/update/${itemId}`, values);
+
+  dispatch(getCartItems());
+  dispatch(getTotalAmount());
 };
 
 export const getTotalAmount = () => async dispatch => {
