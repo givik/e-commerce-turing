@@ -21,7 +21,10 @@ export class Show extends React.Component {
     this.setState(responseProduct.data);
 
     const responseAttributes = await ecomerse.get(
-      `/attributes/inProduct/${getParameterByName('item')}`
+      `/attributes/inProduct/${getParameterByName(
+        'item',
+        this.props.history.location.search
+      )}`
     );
 
     responseAttributes.data.forEach(attribute => {
@@ -69,7 +72,7 @@ export class Show extends React.Component {
   };
 
   render() {
-    if (!this.state.attributes.length) return null;
+    // if (!this.state.attributes.length) return null;
     return (
       <div className="show">
         <div className="gallery">

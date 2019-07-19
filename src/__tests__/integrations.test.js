@@ -6,6 +6,7 @@ import moxios from 'moxios';
 import Root from '../Root';
 import App from '../components/App';
 import { Show } from '../components/Show/Show';
+import Search from '../components/Header/Search';
 
 beforeEach(() => {
   moxios.install(axios);
@@ -134,167 +135,139 @@ it('can fetch and show a list of products', done => {
   });
 });
 
-it('can fetch and show a list of products', done => {
-  moxios.stubRequest('https://backendapi.turing.com/products?page=1', {
+it('can fetch and display product details', done => {
+  moxios.stubRequest('https://backendapi.turing.com/products/1', {
     status: 200,
     response: {
-      count: 101,
-      rows: [
-        {
-          product_id: 1,
-          name: "Arc d'Triomphe",
-          description:
-            'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
-          price: '14.99',
-          discounted_price: '0.00',
-          thumbnail: 'arc-d-triomphe-thumbnail.gif'
-        },
-        {
-          product_id: 2,
-          name: 'Chartres Cathedral',
-          description:
-            '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!',
-          price: '16.95',
-          discounted_price: '15.95',
-          thumbnail: 'chartres-cathedral-thumbnail.gif'
-        }
-      ]
+      product_id: 1,
+      name: "Arc d'Triomphe",
+      description:
+        'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+      price: '14.99',
+      discounted_price: '0.00',
+      image: 'arc-d-triomphe.gif',
+      image_2: 'arc-d-triomphe-2.gif',
+      thumbnail: 'arc-d-triomphe-thumbnail.gif',
+      display: 0
     }
   });
 
-  const wrapped = mount(
-    <Root>
-      <App />
-    </Root>
-  );
+  moxios.stubRequest('https://backendapi.turing.com/attributes/inProduct/1', {
+    status: 200,
+    response: [
+      {
+        attribute_name: 'Color',
+        attribute_value_id: 6,
+        attribute_value: 'White'
+      },
+      {
+        attribute_name: 'Color',
+        attribute_value_id: 7,
+        attribute_value: 'Black'
+      }
+    ]
+  });
+
+  const wrapped = mount(<Show history={{ location: { search: '?item=1' } }} />);
 
   moxios.wait(() => {
     wrapped.update();
 
-    wrapped
-      .find('.products .item')
-      .first()
-      .simulate('click');
-
-    wrapped.update();
-
-    console.log(wrapped.debug());
+    expect(wrapped.find('.show .info .name').text().length).not.toBe(0);
 
     done();
     wrapped.unmount();
   });
 });
 
-// it('can display product details', done => {
-//   moxios.stubRequest('https://backendapi.turing.com/products/1', {
-//     status: 200,
-//     response: {
-//       status: 200,
-//       response: {
-//         product_id: 1,
-//         name: "Arc d'Triomphe",
-//         description:
-//           'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
-//         price: '14.99',
-//         discounted_price: '0.00',
-//         image: 'arc-d-triomphe.gif',
-//         image_2: 'arc-d-triomphe-2.gif',
-//         thumbnail: 'arc-d-triomphe-thumbnail.gif',
-//         display: 0
-//       }
-//     }
-//   });
+it('can search a product', done => {
+  moxios.stubRequest(
+    'https://backendapi.turing.com/products/search?query_string=arc',
+    {
+      status: 200,
+      response: {
+        count: 1,
+        rows: [
+          {
+            product_id: 1,
+            name: "Arc d'Triomphe",
+            description:
+              'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+            price: '14.99',
+            discounted_price: '0.00',
+            thumbnail: 'arc-d-triomphe-thumbnail.gif'
+          }
+        ]
+      }
+    }
+  );
 
-//   const wrapped = mount(
-//     <Root>
-//       <Show history={{ location: { search: '?item=1' } }} />
-//     </Root>
-//   );
+  const wrapped = mount(<Search />);
 
-//   moxios.wait(() => {
-//     wrapped.update();
+  wrapped.find('input').instance().value = 'arc';
+  wrapped.find('input').simulate('change');
+  wrapped.find('form').simulate('submit');
 
-//     console.log(wrapped.debug());
+  moxios.wait(() => {
+    wrapped.update();
 
-//     done();
-//     wrapped.unmount();
-//   });
-// });
+    expect(wrapped.find('.search .results .item').text().length).not.toBe(0);
 
-// it('can display product details', done => {
-//   moxios.stubRequest('https://backendapi.turing.com/products?page=1', {
-//     status: 200,
-//     response: {
-//       count: 101,
-//       rows: [
-//         {
-//           product_id: 1,
-//           name: "Arc d'Triomphe",
-//           description:
-//             'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
-//           price: '14.99',
-//           discounted_price: '0.00',
-//           thumbnail: 'arc-d-triomphe-thumbnail.gif'
-//         },
-//         {
-//           product_id: 2,
-//           name: 'Chartres Cathedral',
-//           description:
-//             '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!',
-//           price: '16.95',
-//           discounted_price: '15.95',
-//           thumbnail: 'chartres-cathedral-thumbnail.gif'
-//         }
-//       ]
-//     }
-//   });
+    done();
+    wrapped.unmount();
+  });
+});
 
-//   const wrapped = mount(
-//     <Root>
-//       <App />
-//     </Root>
-//   );
+it('can sign in a user', done => {
+  const wrapped = mount(
+    <Root>
+      <App />
+    </Root>
+  );
 
-//   moxios.wait(() => {
-//     wrapped.update();
+  wrapped.find('a[href="/login"]').simulate('click', { button: 0 });
+  wrapped.find('.login > form').simulate('submit');
 
-//     wrapped
-//       .find('.products .item')
-//       .first()
-//       .simulate('click');
+  moxios.wait(async () => {
+    const request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: {
+        customer: {
+          customer_id: 49432,
+          name: 'user',
+          email: 'user@mail.com',
+          address_1: null,
+          address_2: null,
+          city: null,
+          region: null,
+          postal_code: null,
+          shipping_region_id: 1,
+          credit_card: null,
+          day_phone: null,
+          eve_phone: null,
+          mob_phone: null
+        },
+        accessToken: 'Bearer eyJhbGci',
+        expires_in: '24h'
+      }
+    });
 
-//     moxios.wait(() => {
-//       let request = moxios.requests.mostRecent();
-//       request
-//         .respondWith({
-//           status: 200,
-//           response: {
-//             product_id: 1,
-//             name: "Arc d'Triomphe",
-//             description:
-//               'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
-//             price: '14.99',
-//             discounted_price: '0.00',
-//             image: 'arc-d-triomphe.gif',
-//             image_2: 'arc-d-triomphe-2.gif',
-//             thumbnail: 'arc-d-triomphe-thumbnail.gif',
-//             display: 0
-//           }
-//         })
-//         .then(() => {
-//           console.log(wrapped.debug());
-//           // equal(list.rows.length, 2);
-//           // equal(list.rows[0].cells[0].innerHTML, 'Fred');
-//           // equal(list.rows[1].cells[0].innerHTML, 'Wilma');
-//           // done();
-//         });
-//     });
+    wrapped.update();
 
-//     // done();
-//     wrapped.unmount();
-//   });
-// });
+    expect(wrapped.find('.logout').text().length).not.toBe(0);
 
-// it('can search a product', done => {
-//   moxios.stubRequest();
-// });
+    done();
+    wrapped.unmount();
+  });
+});
+
+// it('can register a user', done => {});
+
+// it('can add a product to the cart', done => {});
+
+// it('can remove a product from a cart', done => {});
+
+// it('can place an order', done => {});
+
+// it('can checkout successfully', done => {});

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { customerLoginFetch } from '../../actions';
 
-class Login extends React.Component {
+export class Login extends React.Component {
   state = {
     email: '',
     password: ''
