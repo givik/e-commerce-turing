@@ -262,7 +262,50 @@ it('can sign in a user', done => {
   });
 });
 
-// it('can register a user', done => {});
+it('can register a user', done => {
+  const wrapped = mount(
+    <Root>
+      <App />
+    </Root>
+  );
+
+  wrapped.find('a[href="/registration"]').simulate('click', { button: 0 });
+  wrapped.find('.registration form').simulate('submit');
+  window.alert = jest.fn();
+
+  moxios.wait(async () => {
+    const request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: {
+        customer: {
+          customer_id: 49443,
+          name: 'name1',
+          email: 'name01@mail.com',
+          address_1: null,
+          address_2: null,
+          city: null,
+          region: null,
+          postal_code: null,
+          shipping_region_id: 1,
+          credit_card: null,
+          day_phone: null,
+          eve_phone: null,
+          mob_phone: null
+        },
+        accessToken: 'Bearer eyJhbGciO',
+        expires_in: '24h'
+      }
+    });
+
+    wrapped.update();
+
+    expect(wrapped.find('.logout').text().length).not.toBe(0);
+
+    done();
+    wrapped.unmount();
+  });
+});
 
 // it('can add a product to the cart', done => {});
 
