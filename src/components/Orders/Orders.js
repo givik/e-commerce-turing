@@ -7,7 +7,7 @@ class Orders extends React.Component {
     orders: []
   };
 
-  async componentWillMount() {
+  async componentDidMount() {
     const response = await ecommerce.get('/orders/inCustomer');
     this.setState({ orders: response.data });
   }
@@ -17,11 +17,10 @@ class Orders extends React.Component {
     console.log('token', token);
     console.log('addresses', addresses);
     console.log('====================================');
-    // TODO: Send the token information and any other
+    // Send the token information and any other
     // relevant information to your payment process
     // server, wait for the response, and update the UI
-    // accordingly. How this is done is up to you. Using
-    // XHR, fetch, or a GraphQL mutation is typical.
+    // accordingly
 
     await ecommerce.post('/stripe/charge', {
       stripeToken: token.id,

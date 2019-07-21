@@ -59,6 +59,11 @@ export class Show extends React.Component {
 
   handleAdd = event => {
     let error = false;
+    if (!localStorage.token) {
+      error = true;
+      this.props.history.push('/login');
+      return null;
+    }
     if (!this.state.form.color) {
       error = true;
       alert('Please select color');
@@ -67,12 +72,11 @@ export class Show extends React.Component {
       error = true;
       alert('Please select size');
     }
-    console.log(this.state);
     if (!error) this.props.addToCart(this.state);
   };
 
   render() {
-    // if (!this.state.attributes.length) return null;
+    if (!this.state.attributes.length) return null;
     return (
       <div className="show">
         <div className="gallery">

@@ -7,13 +7,14 @@ import Root from '../Root';
 import App from '../components/App';
 import { Show } from '../components/Show/Show';
 import Search from '../components/Header/Search';
+import Orders from '../components/Orders/Orders';
 
 beforeEach(() => {
   moxios.install(axios);
 });
 
 afterEach(() => {
-  moxios.uninstall();
+  moxios.uninstall(axios);
 });
 
 it('can fetch and display list of departments', done => {
@@ -307,10 +308,473 @@ it('can register a user', done => {
   });
 });
 
-// it('can add a product to the cart', done => {});
+it('can add a product to the cart', done => {
+  const wrapped = mount(
+    <Root>
+      <App />
+    </Root>
+  );
 
-// it('can remove a product from a cart', done => {});
+  moxios.stubRequest('https://backendapi.turing.com/products?page=1', {
+    status: 200,
+    response: {
+      count: 101,
+      rows: [
+        {
+          product_id: 1,
+          name: "Arc d'Triomphe",
+          description:
+            'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+          price: '14.99',
+          discounted_price: '0.00',
+          thumbnail: 'arc-d-triomphe-thumbnail.gif'
+        },
+        {
+          product_id: 2,
+          name: 'Chartres Cathedral',
+          description:
+            '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!',
+          price: '16.95',
+          discounted_price: '15.95',
+          thumbnail: 'chartres-cathedral-thumbnail.gif'
+        }
+      ]
+    }
+  });
 
-// it('can place an order', done => {});
+  moxios.stubRequest('https://backendapi.turing.com/products/1', {
+    status: 200,
+    response: {
+      product_id: 1,
+      name: "Arc d'Triomphe",
+      description:
+        'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+      price: '14.99',
+      discounted_price: '0.00',
+      image: 'arc-d-triomphe.gif',
+      image_2: 'arc-d-triomphe-2.gif',
+      thumbnail: 'arc-d-triomphe-thumbnail.gif',
+      display: 0
+    }
+  });
 
-// it('can checkout successfully', done => {});
+  moxios.stubRequest('https://backendapi.turing.com/attributes/inProduct/1', {
+    status: 200,
+    response: [
+      {
+        attribute_name: 'Color',
+        attribute_value_id: 6,
+        attribute_value: 'White'
+      },
+      { attribute_name: 'Size', attribute_value_id: 1, attribute_value: 'S' }
+    ]
+  });
+
+  moxios.wait(async () => {
+    wrapped.update();
+
+    await wrapped
+      .find('.products .item')
+      .first()
+      .simulate('click');
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          attribute_name: 'Color',
+          attribute_value_id: 6,
+          attribute_value: 'White'
+        },
+        {
+          attribute_name: 'Size',
+          attribute_value_id: 1,
+          attribute_value: 'S'
+        }
+      ]
+    });
+
+    wrapped.update();
+
+    wrapped.find('label[htmlFor=6]').simulate('click');
+    wrapped.find('input[id=6]').simulate('change');
+    wrapped.find('label[htmlFor=1]').simulate('click');
+    wrapped.find('input[id=1]').simulate('change');
+    await wrapped.find('.add-to-cart button').simulate('click');
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          item_id: 37844,
+          name: 'Chartres Cathedral',
+          attributes: '{"size":"M","color":"White"}',
+          product_id: 2,
+          image: 'chartres-cathedral.gif',
+          price: '15.95',
+          quantity: 1,
+          subtotal: '15.95'
+        },
+        {
+          item_id: 37854,
+          name: "Arc d'Triomphe",
+          attributes: '{"size":"S","color":"White"}',
+          product_id: 1,
+          image: 'arc-d-triomphe.gif',
+          price: '14.99',
+          quantity: 1,
+          subtotal: '14.99'
+        }
+      ]
+    });
+
+    wrapped.update();
+    expect(wrapped.find('.item-count').text()).not.toBe(0);
+
+    done();
+    wrapped.unmount();
+  });
+});
+
+it('can remove a product from the cart', done => {
+  const wrapped = mount(
+    <Root>
+      <App />
+    </Root>
+  );
+
+  moxios.stubRequest('https://backendapi.turing.com/products?page=1', {
+    status: 200,
+    response: {
+      count: 101,
+      rows: [
+        {
+          product_id: 1,
+          name: "Arc d'Triomphe",
+          description:
+            'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+          price: '14.99',
+          discounted_price: '0.00',
+          thumbnail: 'arc-d-triomphe-thumbnail.gif'
+        },
+        {
+          product_id: 2,
+          name: 'Chartres Cathedral',
+          description:
+            '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!',
+          price: '16.95',
+          discounted_price: '15.95',
+          thumbnail: 'chartres-cathedral-thumbnail.gif'
+        }
+      ]
+    }
+  });
+
+  moxios.stubRequest('https://backendapi.turing.com/products/1', {
+    status: 200,
+    response: {
+      product_id: 1,
+      name: "Arc d'Triomphe",
+      description:
+        'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+      price: '14.99',
+      discounted_price: '0.00',
+      image: 'arc-d-triomphe.gif',
+      image_2: 'arc-d-triomphe-2.gif',
+      thumbnail: 'arc-d-triomphe-thumbnail.gif',
+      display: 0
+    }
+  });
+
+  moxios.stubRequest('https://backendapi.turing.com/attributes/inProduct/1', {
+    status: 200,
+    response: [
+      {
+        attribute_name: 'Color',
+        attribute_value_id: 6,
+        attribute_value: 'White'
+      },
+      { attribute_name: 'Size', attribute_value_id: 1, attribute_value: 'S' }
+    ]
+  });
+
+  wrapped.find('.branding').simulate('click');
+
+  moxios.wait(async () => {
+    wrapped.update();
+
+    await wrapped
+      .find('.products .item')
+      .first()
+      .simulate('click');
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          attribute_name: 'Color',
+          attribute_value_id: 6,
+          attribute_value: 'White'
+        },
+        {
+          attribute_name: 'Size',
+          attribute_value_id: 1,
+          attribute_value: 'S'
+        }
+      ]
+    });
+
+    wrapped.update();
+
+    wrapped.find('label[htmlFor=6]').simulate('click');
+    wrapped.find('input[id=6]').simulate('change');
+    wrapped.find('label[htmlFor=1]').simulate('click');
+    wrapped.find('input[id=1]').simulate('change');
+    await wrapped.find('.add-to-cart button').simulate('click');
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          item_id: 37844,
+          name: 'Chartres Cathedral',
+          attributes: '{"size":"M","color":"White"}',
+          product_id: 2,
+          image: 'chartres-cathedral.gif',
+          price: '15.95',
+          quantity: 1,
+          subtotal: '15.95'
+        }
+      ]
+    });
+
+    wrapped.update();
+
+    wrapped.find('a[href="/cart"]').simulate('click', { button: 0 });
+
+    await wrapped.find('.item-remove').simulate('click');
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({ status: 200 });
+
+    wrapped.update();
+
+    expect(wrapped.find('.item-count').text()).toBe('0');
+
+    done();
+    wrapped.unmount();
+  });
+});
+
+it('can place an order', done => {
+  const wrapped = mount(
+    <Root>
+      <App />
+    </Root>
+  );
+
+  moxios.stubRequest(
+    'https://backendapi.turing.com/shoppingcart/generateUniqueId',
+    {
+      status: 200,
+      response: { cart_id: '1xh7q2ze08jyc6k9p7' }
+    }
+  );
+
+  moxios.stubRequest(
+    'https://backendapi.turing.com/shoppingcart/1xh7q2ze08jyc6k9p7',
+    {
+      status: 200,
+      response: []
+    }
+  );
+
+  moxios.stubRequest('https://backendapi.turing.com/orders/inCustomer', {
+    status: 200,
+    response: [
+      {
+        order_id: 26090,
+        total_amount: '15.95',
+        created_on: '2019-07-21T08:56:02.000Z',
+        shipped_on: null,
+        status: 0,
+        name: 'user'
+      }
+    ]
+  });
+
+  moxios.stubRequest(
+    'https://backendapi.turing.com/shoppingcart/update/37844',
+    {
+      status: 200,
+      response: [
+        {
+          item_id: 37844,
+          name: 'Chartres Cathedral',
+          attributes: '{"size":"M","color":"White"}',
+          product_id: 2,
+          price: '15.95',
+          quantity: 1,
+          subtotal: '15.95'
+        }
+      ]
+    }
+  );
+
+  moxios.stubRequest('https://backendapi.turing.com/products?page=1', {
+    status: 200,
+    response: {
+      count: 101,
+      rows: [
+        {
+          product_id: 1,
+          name: "Arc d'Triomphe",
+          description:
+            'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+          price: '14.99',
+          discounted_price: '0.00',
+          thumbnail: 'arc-d-triomphe-thumbnail.gif'
+        },
+        {
+          product_id: 2,
+          name: 'Chartres Cathedral',
+          description:
+            '"The Fur Merchants". Not all the beautiful stained glass in the great cathedrals depicts saints and angels! Lay aside your furs for the summer and wear this beautiful T-shirt!',
+          price: '16.95',
+          discounted_price: '15.95',
+          thumbnail: 'chartres-cathedral-thumbnail.gif'
+        }
+      ]
+    }
+  });
+
+  moxios.stubRequest('https://backendapi.turing.com/products/1', {
+    status: 200,
+    response: {
+      product_id: 1,
+      name: "Arc d'Triomphe",
+      description:
+        'This beautiful and iconic T-shirt will no doubt lead you to your own triumph.',
+      price: '14.99',
+      discounted_price: '0.00',
+      image: 'arc-d-triomphe.gif',
+      image_2: 'arc-d-triomphe-2.gif',
+      thumbnail: 'arc-d-triomphe-thumbnail.gif',
+      display: 0
+    }
+  });
+
+  moxios.stubRequest('https://backendapi.turing.com/attributes/inProduct/1', {
+    status: 200,
+    response: [
+      {
+        attribute_name: 'Color',
+        attribute_value_id: 6,
+        attribute_value: 'White'
+      },
+      { attribute_name: 'Size', attribute_value_id: 1, attribute_value: 'S' }
+    ]
+  });
+
+  moxios.wait(async () => {
+    wrapped.find('a[href="/login"]').simulate('click', { button: 0 });
+    await wrapped.find('.login > form').simulate('submit');
+
+    let request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: {
+        customer: {
+          customer_id: 49432,
+          name: 'user',
+          email: 'user@mail.com',
+          address_1: null,
+          address_2: null,
+          city: null,
+          region: null,
+          postal_code: null,
+          shipping_region_id: 1,
+          credit_card: null,
+          day_phone: null,
+          eve_phone: null,
+          mob_phone: null
+        },
+        accessToken: 'Bearer eyJhbGci',
+        expires_in: '24h'
+      }
+    });
+
+    await wrapped.find('.branding').simulate('click');
+
+    await wrapped
+      .find('.products .item')
+      .first()
+      .simulate('click');
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          attribute_name: 'Color',
+          attribute_value_id: 6,
+          attribute_value: 'White'
+        },
+        {
+          attribute_name: 'Size',
+          attribute_value_id: 1,
+          attribute_value: 'S'
+        }
+      ]
+    });
+
+    wrapped.update();
+
+    wrapped.find('label[htmlFor=6]').simulate('click');
+    wrapped.find('input[id=6]').simulate('change');
+    wrapped.find('label[htmlFor=1]').simulate('click');
+    wrapped.find('input[id=1]').simulate('change');
+    await wrapped.find('.add-to-cart button').simulate('click');
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: [
+        {
+          item_id: 37844,
+          name: 'Chartres Cathedral',
+          attributes: '{"size":"M","color":"White"}',
+          product_id: 2,
+          image: 'chartres-cathedral.gif',
+          price: '15.95',
+          quantity: 1,
+          subtotal: '15.95'
+        }
+      ]
+    });
+
+    wrapped.update();
+
+    await wrapped.find('a[href="/cart"]').simulate('click', { button: 0 });
+    await wrapped.find('.place-order button').simulate('click');
+
+    wrapped.update();
+
+    request = moxios.requests.mostRecent();
+    await request.respondWith({
+      status: 200,
+      response: { orderId: 26090 }
+    });
+
+    wrapped.update();
+
+    expect(wrapped.find('.order .order-id').text()).toContain('26090');
+
+    done();
+    wrapped.unmount();
+  });
+});
